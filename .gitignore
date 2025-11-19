@@ -1,0 +1,12 @@
+*
+
+!README.md
+!server.js
+!.gitignore
+!.editorconfig
+!package.json
+!package-lock.json
+
+!public/
+!models/
+!views/
