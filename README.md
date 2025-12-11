@@ -45,7 +45,7 @@ Routines — or routes — for the update and delete procedures must go 
 
 ## ❖・Due・❖
 
-Wednesday, 10 December 2025, at 2:00 PM. ***Note*: Per the syllabus, NO late submissions will be accepted**
+Tuesday, 16 December 2025, at 10:00 PM. ***Note*: Per the syllabus, NO late submissions will be accepted**
 
 ---
 
