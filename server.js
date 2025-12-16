@@ -74,26 +74,26 @@ mongoClient.connect(`${dbURL}:${dbPort}`, (err, client) => {
         });
 
         app.post('/delete-a-db-record', async (req, res) => {
-        const id = req.body.id;
-        const result = await db.collection(dbCollection).deleteOne({ _id: new mongoDB.ObjectId(id) });
+        const id = req.body.name;
+        const result = await db.collection(dbCollection).deleteOne({ name: name });
         if (result.deletedCount === 1) {
-          console.log(`Deleted user with id: ${id}`);
-          res.send(`Deleted user with id: ${id}`);
+          console.log(`Deleted user with name: ${name}`);
+          res.send(`Deleted user with name: ${name}`);
         } else {
           res.send('No user found to delete');
         }
         });
 
         app.post('/update-a-db-record', async (req, res) => {
-          const id = req.body.id;
-          const updatedData = req.body;
+          const id = req.body.name;
+          const updatedData = { password: req.body.password};
           const result = await db.collection(dbCollection).updateOne(
-            { _id: new mongoDB.ObjectId(id) },
+            { name: name },
             { $set: updatedData }
           );
           if (result.modifiedCount === 1) {
-            console.log(`Updated user with id: ${id}`);
-            res.send(`Updated user with id: ${id}`);
+            console.log(`Updated user with name: ${name}`);
+            res.send(`Updated user with name: ${name}`);
           } else {
             res.send('No user found to update');
           }
