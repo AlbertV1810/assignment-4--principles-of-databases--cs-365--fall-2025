@@ -57,21 +57,21 @@ mongoClient.connect(`${dbURL}:${dbPort}`, (err, client) => {
             }
       });
 
-      //UPDATE
-      app.put('/users/:id', async (req, res) => {
-        const id = req.params.id;
-        const updatedData = req.body;
-        const result = await db.collection(dbCollection).updateOne(
-            { _id: new mongoDB.ObjectId(id) },
-            { $set: updatedData }
-        );
-        if (result.modifiedCount === 1) {
-            console.log(`Updated user with id: ${id}`);
-            res.send(`Updated user with id: ${id}`);
-        } else {
-          res.send('No user found to update');
-        }
-      });
+        //UPDATE
+        app.put('/users/:id', async (req, res) => {
+          const id = req.params.id;
+          const updatedData = req.body;
+          const result = await db.collection(dbCollection).updateOne(
+              { _id: new mongoDB.ObjectId(id) },
+              { $set: updatedData }
+          );
+          if (result.modifiedCount === 1) {
+              console.log(`Updated user with id: ${id}`);
+              res.send(`Updated user with id: ${id}`);
+          } else {
+            res.send('No user found to update');
+          }
+        });
     }
 });
 
