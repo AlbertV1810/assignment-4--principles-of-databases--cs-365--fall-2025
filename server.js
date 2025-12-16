@@ -47,11 +47,11 @@ mongoClient.connect(`${dbURL}:${dbPort}`, (err, client) => {
 
         // DELETE
         app.delete('/users/:id', async (req, res) => {
-            const userId = req.params.id;
-            const result = await db.collection(dbCollection).deleteOne({ _id: new mongoDB.ObjectId(userId) });
+            const id = req.params.id;
+            const result = await db.collection(dbCollection).deleteOne({ _id: new mongoDB.ObjectId(id) });
             if (result.deletedCount === 1) {
-                console.log('Deleted user with id: ${id}');
-                res.send('Deleted user with id: ${id}');
+                console.log(`Deleted user with id: ${id}`);
+                res.send(`Deleted user with id: ${id}`);
             } else {
                 res.send('No user found to delete');
             }
