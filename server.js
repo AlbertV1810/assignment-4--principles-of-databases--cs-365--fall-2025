@@ -34,60 +34,45 @@ nunjucks.configure(`views`, {
  * 21
  */
 mongoClient.connect(`${dbURL}:${dbPort}`, (err, client) => {
-  if (err) {
-    return console.log(err);
-  } else {
-    db = client.db(dbName);
+    if (err) {
+        return console.log(err);
+    } else {
+        db = client.db(dbName);
 
-    console.log(`MongoDB successfully connected:`);
-    console.log(`\tMongo URL:`, colors.green, dbURL, colors.reset);
-    console.log(`\tMongo port:`, colors.green, dbPort, colors.reset);
-    console.log(`\tMongo database name:`,
-      colors.green, dbName, colors.reset, `\n`);
+        console.log(`MongoDB successfully connected:`);
+        console.log(`\tMongo URL:`, colors.green, dbURL, colors.reset);
+        console.log(`\tMongo port:`, colors.green, dbPort, colors.reset);
+        console.log(`\tMongo database name:`,
+            colors.green, dbName, colors.reset, `\n`);
 
-    // DELETE
-    app.delete('/users/:id', async (req, res) => {
-      try {
-        const id = req.params.id;
-        const result = await db.collection(dbCollection).deleteOne({ _id: new mongoDB.ObjectId(id) });
+        //DELETE
+        app.delete('/users/:id', async (req, res) => {
+            const userId = req.params.id;
+            const result = await db.collection(dbCollection).deleteOne({ _id: new mongoDB.ObjectId(userId) });
+            if (result.deletedCount === 1) {
+                console.log(`Deleted user with id: ${id}`);
+                res.send(`Deleted user with id: ${id}`);
+            } else {
+                res.send('No user found to delete');
+            }
+      });
 
-        if (result.deletedCount === 1) {
-          console.log(`Deleted user with id: ${id}`);
-          return res.send(`Deleted user with id: ${id}`);
-        } else {
-          console.log(`No user found to delete with id: ${id}`);
-          return res.status(404).send(`No user found with id: ${id}`);
-        }
-      } catch (err) {
-        console.error('Error deleting user:', err);
-        return res.status(500).send('Internal server error');
-      }
-    });
-
-    // UPDATE
-    app.put('/users/:id', async (req, res) => {
-      try {
-        const id = req.params.id;
-        const updatedData = req.body;
-
-        const result = await db.collection(dbCollection).updateOne(
-          { _id: new mongoDB.ObjectId(id) },
-          { $set: updatedData }
-        );
-
-        if (result.modifiedCount === 1) {
-          console.log(`Updated user with id: ${id}`);
-          return res.send(`Updated user with id: ${id}`);
-        } else {
-          console.log(`No user found to update with id: ${id}`);
-          return res.status(404).send(`No user found with id: ${id}`);
-        }
-      } catch (err) {
-        console.error('Error updating user:', err);
-        return res.status(500).send('Internal server error');
-      }
-    });
-  }
+        //UPDATE
+        app.put('/users/:id', async (req, res) => {
+          const id = req.params.id;
+          const updatedData = req.body;
+          const result = await db.collection(dbCollection).updateOne(
+              { _id: new mongoDB.ObjectId(id) },
+              { $set: updatedData }
+          );
+          if (result.modifiedCount === 1) {
+              console.log(`Updated user with id: ${id}`);
+              res.send(`Updated user with id: ${id}`);
+          } else {
+            res.send('No user found to update');
+          }
+        });
+    }
 });
 
 /*
