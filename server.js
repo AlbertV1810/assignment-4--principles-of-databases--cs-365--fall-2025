@@ -74,7 +74,7 @@ mongoClient.connect(`${dbURL}:${dbPort}`, (err, client) => {
         });
 
         app.post('/delete-a-db-record', async (req, res) => {
-        const id = req.body.name;
+        const name = req.body.name;
         const result = await db.collection(dbCollection).deleteOne({ name: name });
         if (result.deletedCount === 1) {
           console.log(`Deleted user with name: ${name}`);
@@ -85,7 +85,7 @@ mongoClient.connect(`${dbURL}:${dbPort}`, (err, client) => {
         });
 
         app.post('/update-a-db-record', async (req, res) => {
-          const id = req.body.name;
+          const name = req.body.name;
           const updatedData = { password: req.body.password};
           const result = await db.collection(dbCollection).updateOne(
             { name: name },
