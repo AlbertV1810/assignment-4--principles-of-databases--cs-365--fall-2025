@@ -45,33 +45,32 @@ mongoClient.connect(`${dbURL}:${dbPort}`, (err, client) => {
         console.log(`\tMongo database name:`,
             colors.green, dbName, colors.reset, `\n`);
 
+        // DELETE
         app.delete('/users/:id', async (req, res) => {
-            const userId = req.params.id;
-            const result = await db.collection(dbCollection).deleteOne({ _id: new mongoDB.ObjectId(userId) });
+            const id = req.params.id;
+            const result = await db.collection(dbCollection).deleteOne({ _id: new mongoDB.ObjectId(id) });
             if (result.deletedCount === 1) {
-                console.log('Deleted user with id: ${id}');
-                res.send('Deleted user with id: ${id');
+                console.log(`Deleted user with id: ${id}`);
+                res.send(`Deleted user with id: ${id}`);
             } else {
                 res.send('No user found to delete');
             }
-      });
+        });
 
-      app.put('/users/:id', async (req, res) => {
-        const id = req.params.id;
-        const updatedData = req.body;
-        const result = await db.collection(dbCollection).updateOne(
-            { _id: new mongoDB.ObjectId(id) },
-            { $set: updatedData }
-        );
-        if (result.modifiedCount === 1) {
-            console.log(`Updated user with id: ${id}`);
-            res.send(`Updated user with id: ${id}`);
-        } else {
-          res.send('No user found to update');
-        }
-      });
+        // UPDATE
+        app.put('/users/:id', async (req, res) => {
+            const id = req.params.id;
+            const updateData = req.body;
+            const result = await db.collection(dbCollection).updateOne({ _id: new mongoDB.ObjectId(id) },{ $set: updateData });
+            if (result.modifiedCount === 1) {
+                console.log(`Updated user with id: ${id}`);
+                res.send(`Updated user with id: ${id}`);
+            } else {
+                res.send('No user found to update');
+            }
+        });
     }
-  });
+});
 
 /*
  * Configure Node to act as a web server
